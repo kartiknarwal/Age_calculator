@@ -1,73 +1,98 @@
-*,
-*:before,
-*::after{
-    padding: 0;
-    margin: 0;
-    box-sizing: border-box;
+/* LifeCard 2.0 — v2 animated, colorful, waves & confetti */
+:root{
+  --bg-a:#061124;
+  --bg-b:#08102a;
+  --mut: rgba(255,255,255,0.75);
+  --glass: rgba(255,255,255,0.04);
+  --accent1: #6EE7B7;
+  --accent2: #60A5FA;
+  --radius: 16px;
+  font-family: "Poppins", system-ui, -apple-system, "Segoe UI", Roboto, Arial;
 }
+*{box-sizing:border-box}
+html,body{height:100%}
 body{
-    background-color: #0a6cf1;
+  margin:0;
+  min-height:100vh;
+  background: radial-gradient(800px 400px at 10% 10%, rgba(96,165,250,0.06), transparent),
+              linear-gradient(180deg,var(--bg-a),var(--bg-b));
+  color:#fff;
+  -webkit-font-smoothing:antialiased;
+  display:flex;
+  align-items:flex-start;
+  justify-content:center;
+  padding:28px;
 }
-.container{
-    width: 40%;
-    min-width: 450px;
-    position: absolute;
-    transform: translate(-50%,-50%);
-    left: 50%;
-    top: 50%;
-    padding: 50px 30px;
-}
-.container *{
-    font-family: "Poppins",sans-serif;
-    border: none;
-    outline: none;
-}
-.inputs-wrapper{
-    background-color: #080808;
-    padding: 30px 25px;
-    border-radius: 8px;
-    box-shadow:  0 15px 20px rgba(0,0,0,0.3);
-    margin-bottom: 50px;
-}
-input,
-button{
-    height: 50px;
-    background-color: #ffffff;
-    color: #080808;
-    font-weight: 500;
-    border-radius: 5px;
-}
-input{
-    width: 60%;
-    padding: 0 20px;
-    font-size: 14px;
-}
-button{
-    width: 30%;
-    float: right;
-}
-.outputs-wrapper{
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-}
-.outputs-wrapper div{
-    height: 100px;
-    width: 100px;
-    background-color: #080808;
-    border-radius: 5px;
-    color: #ffffff;
-    display: grid;
-    place-items: center;
-    padding: 20px 0;
-    box-shadow: 0 15px 20px rgba(0,0,0,0.3);
-}
-span{
-    font-size: 30px;
-    font-weight: 500;
-}
-p{
-    font-size: 14px;
-    color: #707070;
-    font-weight: 400;
+
+/* App shell */
+.app{ width:1140px; max-width:96%; display:flex; flex-direction:column; gap:18px; }
+.site-header{ display:flex; justify-content:space-between; align-items:center; }
+.split-title{ font-weight:700; letter-spacing:0.6px; font-size:20px; display:inline-block; overflow:visible; }
+.header-meta{ display:flex; gap:10px; align-items:center; }
+.icon{ background:transparent; border:1px solid rgba(255,255,255,0.04); padding:8px; border-radius:10px; cursor:pointer; }
+
+/* layout */
+.main{ display:grid; grid-template-columns: 360px 1fr; gap:18px; align-items:start; }
+.controls{ background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)); padding:18px; border-radius:var(--radius); border:1px solid rgba(255,255,255,0.04);}
+.panel-title{ font-size:15px; margin-bottom:6px; }
+.field{ display:flex; flex-direction:column; gap:8px; margin-bottom:10px; }
+.label{ font-size:13px; color:var(--mut); font-weight:600; }
+input[type="text"], input[type="date"], select { height:46px; border-radius:10px; padding:0 12px; border:none; background:#fff; color:#071127; font-weight:600; }
+
+/* small grid */
+.small-grid{ display:grid; grid-template-columns:1fr 1fr; gap:8px; align-items:center; }
+.range-row{ display:flex; align-items:center; gap:8px; }
+input[type="range"]{ width:100%; transform: translateZ(0); }
+
+/* avatar */
+.avatar-preview{ width:64px; height:64px; border-radius:50%; background:linear-gradient(135deg,#fff2, #fff0); display:grid; place-items:center; font-size:22px; border:1px solid rgba(255,255,255,0.03); margin-top:8px; overflow:hidden; }
+
+/* buttons */
+.controls-row{ display:flex; gap:10px; margin-top:6px; }
+.btn{ padding:10px 14px; border-radius:12px; background:transparent; color:#fff; border:1px solid rgba(255,255,255,0.06); cursor:pointer; font-weight:700; }
+.btn.primary{ background: linear-gradient(90deg,var(--accent1),var(--accent2)); color:#042028; border:none; box-shadow: 0 14px 30px rgba(96,165,250,0.08); }
+.ghost{ border-style:dashed; }
+
+/* preview stage */
+.preview{ display:flex; flex-direction:column; gap:12px; }
+.card-stage{ position:relative; min-height:480px; display:flex; align-items:center; justify-content:center; overflow:visible; }
+
+/* waves SVG */
+.waves{ position:absolute; bottom:-8rem; left:0; width:180%; height:300px; transform:translateX(-12%); opacity:0.14; filter: blur(10px); }
+
+/* lifecard */
+.lifecard{ position:relative; width:560px; max-width:96%; border-radius:18px; padding:18px; background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)); border:1px solid rgba(255,255,255,0.04); box-shadow: 0 30px 60px rgba(2,6,23,0.7); transform-origin:center; }
+
+/* top */
+.card-top{ display:flex; justify-content:space-between; align-items:center; gap:12px; margin-bottom:12px; }
+.card-avatar{ width:72px; height:72px; border-radius:50%; display:grid; place-items:center; font-size:30px; color:#071127; background:linear-gradient(90deg,#fff,#fff2); border:3px solid rgba(255,255,255,0.06); overflow:hidden; }
+.meta h3{ margin:0; font-size:18px; }
+.muted{ color:rgba(255,255,255,0.7); }
+
+/* scramble / stats */
+.scramble-row{ display:flex; gap:12px; margin-bottom:10px; }
+.stat-block{ background: linear-gradient(90deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)); padding:10px 12px; border-radius:10px; flex:1; text-align:center; }
+.scramble.large{ font-size:20px; font-weight:800; }
+
+/* progress */
+.progress-row{ display:flex; gap:12px; align-items:center; margin-bottom:8px; }
+.progress-ring{ width:100px; height:100px; transform:rotate(-90deg); }
+.progress-ring circle.bg{ fill:none; stroke: rgba(255,255,255,0.05); stroke-width:10;}
+.progress-ring circle.fg{ fill:none; stroke-width:10; stroke-dasharray: 314; stroke-dashoffset: 314; stroke-linecap:round; filter: drop-shadow(0 10px 30px rgba(0,0,0,0.6)); }
+
+/* fun facts */
+.fun-facts{ display:flex; gap:8px; flex-wrap:wrap; margin-top:8px; }
+.fact{ padding:8px 10px; border-radius:10px; background: linear-gradient(90deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)); border:1px solid rgba(255,255,255,0.03); font-size:13px; }
+
+/* confetti canvas */
+.confetti{ position:absolute; inset:0; pointer-events:none; width:100%; height:100%; }
+
+/* actions */
+.card-actions{ display:flex; gap:10px; margin-top:10px; }
+.card-footer{ text-align:center; margin-top:8px; font-size:13px; color:rgba(255,255,255,0.65); }
+
+/* small screens */
+@media (max-width:900px){
+  .main{ grid-template-columns: 1fr; }
+  .card-stage{ padding:24px 0 80px; }
 }

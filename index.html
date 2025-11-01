@@ -1,48 +1,158 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?
-    family =Poppins:weight@400,500&display =swap">
-    <link rel="stylesheet" href="style.css">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>LifeCard 2.0 — Living Timeline (Animated)</title>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-    <div class="container">
-        <div class="inputs-wrapper">
-            <input type="date" id="date-input">
-            <button onclick="ageCalculate()">Calculate</button>
+  <div class="app">
+    <header class="site-header">
+      <h1 id="split-title" class="split-title">LifeCard • 2.0</h1>
+      <div class="header-meta">
+        <button id="theme-toggle" class="icon">🌗</button>
+        <button id="generate-top" class="btn ghost">Generate</button>
+      </div>
+    </header>
+
+    <main class="main">
+      <!-- Controls -->
+      <aside class="controls">
+        <h2 class="panel-title">Create your LifeCard</h2>
+
+        <label class="field">
+          <span class="label">Full name</span>
+          <input id="name" type="text" placeholder="e.g. Kartik" />
+        </label>
+
+        <label class="field">
+          <span class="label">Date of birth</span>
+          <input id="date-input" type="date" />
+        </label>
+
+        <label class="field small-grid">
+          <div>
+            <span class="label">Life expectancy</span>
+            <div class="range-row">
+              <input id="life-expectancy" type="range" min="60" max="120" value="80" />
+              <span id="life-exp-value">80</span> yrs
+            </div>
+          </div>
+          <div>
+            <span class="label">Theme</span>
+            <select id="theme-select">
+              <option value="aqua">Aqua Glow</option>
+              <option value="sunset">Sunset</option>
+              <option value="violet">Violet Neon</option>
+            </select>
+          </div>
+        </label>
+
+        <label class="field">
+          <span class="label">Avatar (optional)</span>
+          <input id="avatar-input" type="file" accept="image/*" />
+          <div id="avatar-preview" class="avatar-preview">📷</div>
+        </label>
+
+        <div class="controls-row">
+          <button id="generate" class="btn primary">Generate LifeCard</button>
+          <button id="reset" class="btn">Reset</button>
         </div>
-        <div class="outputs-wrapper">
-            <div>
-                <span id="years">
-                    -
-                </span>
-                <p>
-                    Years
-                </p>
+
+        <div class="hint">Pro tips: Try different themes. Click Share to export PNG. Scroll to see waves & parallax.</div>
+      </aside>
+
+      <!-- Preview + Animated Card -->
+      <section class="preview">
+        <div class="card-stage">
+          <!-- animated SVG waves behind the card -->
+          <svg id="waves" class="waves" viewBox="0 0 1440 240" preserveAspectRatio="none" aria-hidden="true">
+            <path id="wavePath" d=""></path>
+          </svg>
+
+          <article id="lifecard" class="lifecard">
+            <div class="card-top">
+              <div class="left">
+                <div id="avatar-in-card" class="card-avatar">👤</div>
+                <div class="meta">
+                  <h3 id="card-name">Your Name</h3>
+                  <div id="card-born" class="muted">Born —</div>
+                </div>
+              </div>
+              <div class="right meta-right">
+                <div id="zodiac" class="zodiac">—</div>
+                <div id="generation" class="muted small">—</div>
+              </div>
             </div>
-            <div>
-                <span id="months">
-                    -
-                </span>
-                <p>
-                    Months
-                </p>
+
+            <div class="card-body">
+              <div class="scramble-row">
+                <div class="stat-block">
+                  <div class="label">Years</div>
+                  <div id="scr-years" class="scramble large">—</div>
+                </div>
+                <div class="stat-block">
+                  <div class="label">Days</div>
+                  <div id="scr-days" class="scramble large">—</div>
+                </div>
+                <div class="stat-block">
+                  <div class="label">Life %</div>
+                  <div id="scr-percent" class="scramble large">—</div>
+                </div>
+              </div>
+
+              <div class="progress-row">
+                <svg class="progress-ring" viewBox="0 0 120 120">
+                  <defs>
+                    <linearGradient id="g1" x1="0" x2="1">
+                      <stop offset="0%" stop-color="#6EE7B7"/>
+                      <stop offset="100%" stop-color="#60A5FA"/>
+                    </linearGradient>
+                  </defs>
+                  <circle class="bg" cx="60" cy="60" r="50" />
+                  <circle class="fg" cx="60" cy="60" r="50" />
+                </svg>
+                <div class="progress-info">
+                  <div id="next-bday">Next birthday —</div>
+                  <div id="milestones" class="muted small">Milestone —</div>
+                </div>
+              </div>
+
+              <div id="fun-facts" class="fun-facts"></div>
             </div>
-            <div>
-                <span id="days">
-                    -
-                </span>
-                <p>
-                    Days
-                </p>
-                
+
+            <div class="card-actions">
+              <button id="share-btn" class="btn ghost">📤 Share</button>
+              <button id="copy-btn" class="btn">🔗 Copy Link</button>
             </div>
+
+            <div class="card-footer muted small">Powered by GSAP + Numbers API + Agify</div>
+          </article>
+
+          <!-- confetti canvas -->
+          <canvas id="confetti-canvas" class="confetti"></canvas>
         </div>
-    </div>
-    <script src="script.js"></script>
+
+        <div class="scroll-hint muted">Scroll to reveal animated waves & parallax</div>
+      </section>
+    </main>
+
+    <footer class="footer muted">Made with motion — designer-engineer vibes</footer>
+  </div>
+
+  <!-- libs -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+  <!-- app -->
+  <script src="script.js"></script>
 </body>
 </html>
